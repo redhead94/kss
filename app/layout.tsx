@@ -4,20 +4,17 @@ import Link from "next/link";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import type { Metadata } from "next";
-import { Container, NavLink } from "../components/Ui";
+import { Container, NavLink } from "@/components/Ui";
 import MobileNav from "@/components/MobileNav";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Kehillas Shaar Simcha",
+  title: "Kehilas Shaar Simcha",
   description: "Announcements & donations",
 };
 
-export default async function SiteLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { isEnabled } = await draftMode()
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const { isEnabled } = await draftMode();
 
   return (
     <html lang="en">
@@ -25,29 +22,33 @@ export default async function SiteLayout({
         {/* Header */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-brand-ink/10">
           <Container className="flex h-14 md:h-16 items-center justify-between px-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="h-5 w-5 md:h-6 md:w-6 rounded-lg bg-gradient-to-br from-brand-teal to-brand-blue shadow-[var(--shadow-soft)]" />
-              <span className="font-display text-base md:text-lg font-semibold tracking-wide text-brand-deep">
-                <span className="hidden sm:inline">Kehillas Shaar Simcha</span>
-                <span className="sm:hidden">KSS</span>
+            {/* Brand */}
+            <Link href="/" className="flex items-center gap-3 text-brand-ink">
+              {/* Fix 1: keep width & height and DON'T override with w-auto/h-10 */}
+              <Image
+                src="/kss.jpeg"
+                alt="Kehilas Shaar Simcha"
+                width={40}
+                height={40}
+                priority
+                className="rounded-md object-contain" // no size overrides -> no warning
+              />
+              <span className="text-base md:text-lg font-semibold tracking-tight">
+                Kehilas Shaar Simcha
               </span>
             </Link>
-            
+
             {/* Desktop Navigation */}
             <nav className="hidden md:flex gap-6 lg:gap-7 text-brand-ink/80 text-sm lg:text-base">
-              <NavLink href="/" className="hover:text-brand-deep transition-colors">
-                Home
-              </NavLink>
-              <NavLink href="/donate" className="hover:text-brand-deep transition-colors">
-                Donate
-              </NavLink>
-              <NavLink href="/about" className="hover:text-brand-deep transition-colors">
-                About
-              </NavLink>
+              <NavLink href="/" className="hover:text-brand-deep transition-colors">Home</NavLink>
+              <NavLink href="/donate" className="hover:text-brand-deep transition-colors">Donate</NavLink>
+              <NavLink href="/about" className="hover:text-brand-deep transition-colors">About</NavLink>
             </nav>
 
-            {/* Mobile Navigation */}
-            <MobileNav />
+            {/* Mobile Navigation (show only on mobile) */}
+            <div className="md:hidden">
+              <MobileNav />
+            </div>
           </Container>
         </header>
 
@@ -57,7 +58,7 @@ export default async function SiteLayout({
         <footer className="mt-12 md:mt-16 border-t border-brand-ink/10 bg-white/70 backdrop-blur-sm">
           <Container className="py-6 md:py-8 px-4 text-center md:text-left">
             <p className="text-xs md:text-sm text-brand-ink/70">
-              © {new Date().getFullYear()} Kehillas Shaar Simcha
+              © {new Date().getFullYear()} Kehilas Shaar Simcha
             </p>
             <div className="mt-3 flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-xs text-brand-ink/60">
               <a href="/about" className="hover:text-brand-blue transition-colors">About</a>
@@ -71,7 +72,6 @@ export default async function SiteLayout({
           </Container>
         </footer>
 
-        {/* Sanity Visual Editing overlays (only when draft mode is enabled) */}
         {isEnabled && <VisualEditing />}
       </body>
     </html>

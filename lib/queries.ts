@@ -1,3 +1,6 @@
+import { groq } from "next-sanity";
+
+
 export const announcementsQuery = `
 *[_type=="post" && (!defined(publishAt) || publishAt <= now()) 
   && (!defined(expiresAt) || expiresAt > now())]
@@ -5,6 +8,8 @@ export const announcementsQuery = `
   _id,
   title,
   "slug": slug.current,
+  "date": coalesce(publishAt, _createdAt),
+  "excerpt": coalesce(excerpt, pt::text(body)[0..180]),
   publishAt,
   category,
   audience,

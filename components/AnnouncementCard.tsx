@@ -13,7 +13,14 @@ export interface Announcement {
 }
 
 export default function AnnouncementCard({ a }: { a: Announcement }) {
-  const d = new Date(a.date).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+  console.log(a.date);
+  let d = "—";
+  if (a.date) {
+    const t = new Date(a.date);
+    if (!Number.isNaN(t.getTime())) {
+      d = t.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+    }
+  }
 
   return (
     <Card className="p-5">

@@ -43,8 +43,6 @@ export default async function Home() {
                 <div className="h-2 w-2 rounded-full bg-brand-teal animate-pulse" />
                 {data.length} announcements
               </span>
-              <span className="h-4 w-px bg-brand-ink/20" />
-              <span>Updated daily</span>
             </div>
           </div>
         </Container>
