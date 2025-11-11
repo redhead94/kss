@@ -7,7 +7,17 @@ export default defineType({
   fields: [
     defineField({ name: 'title', type: 'string', validation: r => r.required() }),
     defineField({ name: 'slug', type: 'slug', options: { source: 'title', maxLength: 96 } }),
-    defineField({ name: 'body', type: 'array', of: [{ type: 'block' }] }), // rich text
+    defineField({ name: 'body', type: 'array', of: [{ type: 'block' }] }),
+
+    // 👇 Add this
+    defineField({
+      name: 'image',
+      title: 'Hero Image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
+    }),
+
     defineField({
       name: 'attachments',
       title: 'Attachments (PDFs)',

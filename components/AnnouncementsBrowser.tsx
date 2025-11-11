@@ -12,6 +12,7 @@ export interface AnnouncementDTO {
   date: string; // ISO
   category: Exclude<Cat, "All">;
   excerpt?: string;
+  image?: { url: string; w: number; h: number; alt?: string };
   attachments?: { name: string; url: string }[];
   pinned?: boolean;
 }
@@ -40,6 +41,7 @@ export default function AnnouncementsBrowser({ posts }: { posts: AnnouncementDTO
               date: p.date,
               category: p.category,
               excerpt: p.excerpt ?? "",
+              image: p.image,
               attachments: p.attachments,
               pinned: p.pinned,
             }}

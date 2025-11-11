@@ -14,6 +14,12 @@ export default async function Home() {
     date: p.date,
     category: p.category,
     excerpt: "",
+    image: p.image ? {
+      url: p.image.url,
+      w: p.image.w,
+      h: p.image.h,
+      alt: p.image.alt,
+    } : undefined,
     attachments: (p.attachments || []).map((a: any) => ({
       name: a.originalFilename || "Attachment.pdf",
       url: a.url,

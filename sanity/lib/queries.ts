@@ -12,6 +12,12 @@ export const announcementsQuery = `
   audience,
   pinned,
   body,
+    "image": {
+    "url": image.asset->url,
+    "w": image.asset->metadata.dimensions.width,
+    "h": image.asset->metadata.dimensions.height,
+    "alt": coalesce(image.alt, ^.title)
+  },
   attachments[]{
     _key,
     "url": asset->url,
@@ -32,6 +38,12 @@ export const announcementBySlugQuery = `
   audience,
   pinned,
   body,
+    "image": {
+    "url": image.asset->url,
+    "w": image.asset->metadata.dimensions.width,
+    "h": image.asset->metadata.dimensions.height,
+    "alt": coalesce(image.alt, ^.title)
+  },
   attachments[]{
     _key,
     "url": asset->url,
