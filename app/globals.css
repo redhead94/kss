@@ -125,3 +125,7 @@ html, body {
 .category-filter-active {
   @apply bg-gradient-to-r from-brand-blue to-brand-deep text-white shadow-sm;
 }
+
+.text-brand { color: #1677b9; }      /* or your brand blue */
+.border-brand { border-color: #1677b9; }
+.bg-brand-faint { background-color: #f8fbfd; } /* very faint blue wash */

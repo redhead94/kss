@@ -16,7 +16,7 @@ export interface Announcement {
 
 export default function AnnouncementCard({ a }: { a: Announcement }) {
   console.log(a.image?.url);
-  let d = "—";
+  let d = "-";
   if (a.date) {
     const t = new Date(a.date);
     if (!Number.isNaN(t.getTime())) {

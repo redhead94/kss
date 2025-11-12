@@ -1,4 +1,4 @@
-import { Container, Card } from "@/components/Ui"
+// Home (compact + clean)
 import AnnouncementsBrowser, { AnnouncementDTO } from "@/components/AnnouncementsBrowser"
 import { sanity } from "@/lib/sanity.client"
 import { announcementsQuery } from "@/lib/queries"
@@ -14,12 +14,9 @@ export default async function Home() {
     date: p.date,
     category: p.category,
     excerpt: "",
-    image: p.image ? {
-      url: p.image.url,
-      w: p.image.w,
-      h: p.image.h,
-      alt: p.image.alt,
-    } : undefined,
+    image: p.image
+      ? { url: p.image.url, w: p.image.w, h: p.image.h, alt: p.image.alt }
+      : undefined,
     attachments: (p.attachments || []).map((a: any) => ({
       name: a.originalFilename || "Attachment.pdf",
       url: a.url,
@@ -28,90 +25,79 @@ export default async function Home() {
   }))
 
   return (
-    <>
-      {/* Hero / header */}
-      <section className="relative bg-streaks overflow-hidden">
-        {/* Decorative elements - hidden on mobile */}
-        <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-brand-teal/10 to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-tr from-brand-blue/10 to-transparent rounded-full blur-3xl" />
-        
-        <Container className="relative mx-auto max-w-5xl py-12 md:py-16 lg:py-24 px-4">
-          <div className="text-center">
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-brand-deep">
-              Announcements
-            </h1>
-            <p className="mt-3 md:mt-4 text-base sm:text-lg md:text-xl text-brand-ink/70 max-w-2xl mx-auto px-4">
-              Latest updates from the shul.
-            </p>
-            {/* Stats or quick info */}
-            <div className="mt-6 md:mt-8 flex items-center justify-center gap-4 md:gap-6 text-xs sm:text-sm text-brand-ink/60">
-              <span className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-brand-teal animate-pulse" />
-                {data.length} announcements
-              </span>
-            </div>
-          </div>
-        </Container>
-      </section>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <div className="border-b border-stone-200">
+  <div className="max-w-4xl mx-auto px-6 py-8 md:py-10">
+    <div className="flex items-center justify-center gap-3 text-stone-400 text-[11px] md:text-xs uppercase tracking-wide">
+      <span className="h-px w-6 bg-stone-200" />
+      Updates • {data.length} {data.length === 1 ? "announcement" : "announcements"}
+      <span className="h-px w-6 bg-stone-200" />
+    </div>
 
-      {/* Main content */}
-      <Container className="relative -mt-4 md:-mt-8 mb-12 md:mb-16 px-4">
-        <div className="grid grid-cols-1 gap-4 md:gap-6 lg:gap-8 lg:grid-cols-3">
-          {/* Announcements */}
-          <div className="lg:col-span-2 space-y-4 md:space-y-6">
+    <h1 className="mt-2 text-lg md:text-xl font-light text-center text-stone-800">
+      Announcements
+    </h1>
+
+    <p className="mt-2 text-center text-stone-600 text-sm">
+      Latest from the shul.
+    </p>
+  </div>
+</div>
+
+      {/* Main */}
+      <main className="max-w-4xl mx-auto px-6 py-12 md:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Feed */}
+          <section className="lg:col-span-2">
+            <h2 className="sr-only">Latest</h2>
             <AnnouncementsBrowser posts={data} />
-          </div>
+          </section>
 
           {/* Sidebar */}
-          <aside className="space-y-4 md:space-y-6">
-            {/* Donate Card */}
-            <Card className="card-surface p-4 md:p-6 card-hover">
-              <div className="flex items-center gap-3 mb-3 md:mb-4">
-                <div>
-                  <h3 className="font-display text-base md:text-lg font-semibold text-brand-deep">
-                    Support the Shul
-                  </h3>
-                  <p className="text-xs text-brand-ink/60">Every donation helps</p>
-                </div>
-              </div>
+          <aside className="space-y-10">
+            {/* Donate */}
+            <section>
+              <h3 className="text-sm font-medium uppercase tracking-wide text-gray-500">
+                Support the Shul
+              </h3>
+              <p className="mt-3 text-sm text-gray-600">
+                Every contribution helps sustain our programs.
+              </p>
               <a
                 href="/donate"
-                className="btn-primary w-full text-sm md:text-base py-2.5 md:py-3"
+                className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-brand px-4 py-2 text-sm text-brand hover:bg-brand-faint transition-colors"
               >
                 Make a Donation
               </a>
-            </Card>
+            </section>
 
-            {/* Quick Links Card */}
-            <Card className="card-surface p-4 md:p-6">
-              <h3 className="font-display text-base md:text-lg font-semibold text-brand-deep mb-3 md:mb-4">
+            {/* Quick links */}
+            <section>
+              <h3 className="text-sm font-medium uppercase tracking-wide text-gray-500">
                 Quick Links
               </h3>
-              <nav className="space-y-1.5 md:space-y-2">
-                <a href="/about" className="flex items-center gap-3 p-2.5 md:p-3 rounded-lg hover:bg-brand-mist/50 transition-colors">
-                  <span className="text-sm font-medium text-brand-ink hover:text-brand-blue transition-colors">About Us</span>
-                </a>
-                <a href="/contact" className="flex items-center gap-3 p-2.5 md:p-3 rounded-lg hover:bg-brand-mist/50 transition-colors">
-                  <span className="text-sm font-medium text-brand-ink hover:text-brand-blue transition-colors">Contact</span>
-                </a>
+              <nav className="mt-3 divide-y divide-gray-200 border-t border-b border-gray-200 text-sm">
+                <a href="/about" className="block py-3 hover:underline">About Us</a>
+                <a href="/contact" className="block py-3 hover:underline">Contact</a>
               </nav>
-            </Card>
+            </section>
 
-            {/* Contact Info Card */}
-            <Card className="card-surface p-4 md:p-6 bg-gradient-to-br from-brand-blue/5 to-brand-teal/5 border-brand-blue/10">
-              <h3 className="font-display text-base md:text-lg font-semibold text-brand-deep mb-2 md:mb-3">
-                Get in Touch
+            {/* Contact */}
+            <section className="pt-6 border-t border-gray-200">
+              <h3 className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                Questions?
               </h3>
-              <div className="space-y-1.5 md:space-y-2 text-sm text-brand-ink/70">
-                <p>Questions? Reach out to us anytime.</p>
-                <a href="mailto:info@shaarsimcha.org" className="block text-brand-blue hover:text-brand-deep font-medium break-all">
-                  info@shaarsimcha.org
-                </a>
-              </div>
-            </Card>
+              <a
+                href="mailto:info@shaarsimcha.org"
+                className="mt-2 block text-sm hover:underline break-all"
+              >
+                info@shaarsimcha.org
+              </a>
+            </section>
           </aside>
         </div>
-      </Container>
-    </>
+      </main>
+    </div>
   )
 }

@@ -24,7 +24,7 @@ const announcementsQuery = groq`
 
 export async function getAnnouncements() {
   // Revalidate to avoid fetching on every hit; adjust window for your needs
-  // If you *must* be fully dynamic, you can drop this—but note it increases fetch frequency.
+  // If you *must* be fully dynamic, you can drop this-but note it increases fetch frequency.
   // @ts-ignore next/cache hint (only matters if you use next/route handlers)
   // export const revalidate = 60;
 
