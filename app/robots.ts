@@ -1,7 +1,5 @@
-import { Metadata } from 'next';
-import { sanity } from '@/lib/sanity.client';
-
-export default function robots(): Metadata {
+// app/robots.ts
+export default function robots() {
   return {
     rules: {
       userAgent: '*',

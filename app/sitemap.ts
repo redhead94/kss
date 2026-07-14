@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { sanity } from '@/lib/sanity.client';
 
 export default async function sitemap(): Promise<{ url: string, lastModified?: Date | string | number }[]> {
