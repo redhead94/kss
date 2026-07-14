@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "./Ui";
-import { AnnouncementFilter } from "@/lib/types";
+
+type AnnouncementFilter = "All" | "Youth" | "Women" | "Learning" | "Chesed" | "General";
 
 const CATS: AnnouncementFilter[] = [
   "All",
