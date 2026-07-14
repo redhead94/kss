@@ -6,7 +6,12 @@ import { announcementsQuery } from "@/lib/queries"
 // export const revalidate = 60
 
 export default async function Home() {
-  const posts = await sanity.fetch(announcementsQuery)
+  let posts = [];
+  try {
+    posts = await sanity.fetch(announcementsQuery);
+  } catch (e) {
+    console.error("Failed to fetch posts, using empty list.", e);
+  }
 
   const data: AnnouncementDTO[] = posts.map((p: any) => ({
     id: p._id,
