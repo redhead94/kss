@@ -4,21 +4,10 @@ import { useMemo, useState } from "react";
 import AnnouncementCard from "@/components/AnnouncementCard";
 import Filters from "@/components/Filters";
 
-type Cat = "All" | "Youth" | "Women" | "Learning" | "Chesed" | "General";
-
-export interface AnnouncementDTO {
-  id: string;
-  title: string;
-  date: string; // ISO
-  category: Exclude<Cat, "All">;
-  excerpt?: string;
-  image?: { url: string; w: number; h: number; alt?: string };
-  attachments?: { name: string; url: string }[];
-  pinned?: boolean;
-}
+import { AnnouncementDTO, AnnouncementFilter } from "@/lib/types";
 
 export default function AnnouncementsBrowser({ posts }: { posts: AnnouncementDTO[] }) {
-  const [cat, setCat] = useState<Cat>("All");
+  const [cat, setCat] = useState<AnnouncementFilter>("All");
 
   const visible = useMemo(
     () => (cat === "All" ? posts : posts.filter(p => p.category === cat)),

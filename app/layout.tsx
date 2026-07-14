@@ -9,8 +9,23 @@ import MobileNav from "@/components/MobileNav";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Kehilas Shaar Simcha",
-  description: "Announcements & donations",
+  title: {
+    default: "Kehillas Shaar Simcha",
+    template: "%s | Kehillas Shaar Simcha",
+  },
+  description: "Announcements, calendar & donations for Kehillas Shaar Simcha",
+  metadataBase: new URL("https://shaarsimcha.org"),
+  openGraph: {
+    title: "Kehillas Shaar Simcha",
+    description: "Announcements, calendar & donations for Kehillas Shaar Simcha",
+    siteName: "Kehillas Shaar Simcha",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kehillas Shaar Simcha",
+    description: "Announcements, calendar & donations",
+  },
 };
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -39,12 +54,17 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-sm lg:text-base">
-              {/* Subtle underline on hover; quiet active state via bottom border */}
               <NavLink
                 href="/"
                 className="text-stone-700 hover:text-stone-900 border-b-2 border-transparent hover:border-stone-300 transition-colors"
               >
                 Home
+              </NavLink>
+              <NavLink
+                href="/calendar"
+                className="text-stone-700 hover:text-stone-900 border-b-2 border-transparent hover:border-stone-300 transition-colors"
+              >
+                Calendar
               </NavLink>
               <NavLink
                 href="/donate"

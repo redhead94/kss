@@ -2,20 +2,9 @@ import Image from "next/image";
 import { Badge, Card } from "./Ui";
 import PdfPill from "./PdfPill";
 
-export interface Attachment { name: string; url: string; }
-export interface Announcement {
-  id: string;
-  title: string;
-  date: string;           // ISO
-  category: "General"|"Youth"|"Women"|"Learning"|"Chesed";
-  excerpt: string;
-  image?: { url: string; w: number; h: number; alt?: string };
-  attachments?: Attachment[];
-  pinned?: boolean;
-}
+import { Announcement } from "@/lib/types";
 
 export default function AnnouncementCard({ a }: { a: Announcement }) {
-  console.log(a.image?.url);
   let d = "-";
   if (a.date) {
     const t = new Date(a.date);

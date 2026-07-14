@@ -1,32 +1,38 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin123';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function AdminLoginPage() {
-  const [passwordInput, setPasswordInput] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const authStatus = sessionStorage.getItem('admin_authorized');
-    if (authStatus === 'true') {
-      router.push('/admin/donations');
-    }
-  }, [router]);
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (passwordInput === ADMIN_PASSWORD) {
-      sessionStorage.setItem('admin_authorized', 'true');
-      router.push('/admin/donations');
-    } else {
-      setPasswordError('Incorrect password');
-      setPasswordInput('');
+    setError("");
+    setIsLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError("Invalid email or password");
+      setIsLoading(false);
+      return;
     }
+
+    router.push("/admin/donations");
+    router.refresh();
   };
 
   return (
@@ -34,30 +40,41 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-12 text-center">
           <h1 className="text-2xl font-medium mb-2">Admin</h1>
-          <p className="text-sm text-gray-500">Enter password to continue</p>
+          <p className="text-sm text-stone-500">Sign in with your Supabase account</p>
         </div>
 
-        <form onSubmit={handlePasswordSubmit} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-6">
           <div>
             <input
-              type="password"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              placeholder="Password"
-              className="w-full px-0 py-3 border-b border-gray-300 focus:border-gray-900 outline-none bg-transparent transition-colors text-center"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none bg-transparent transition-colors text-center"
               autoFocus
               required
             />
-            {passwordError && (
-              <p className="mt-2 text-sm text-red-600 text-center">{passwordError}</p>
+          </div>
+          <div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none bg-transparent transition-colors text-center"
+              required
+            />
+            {error && (
+              <p className="mt-2 text-sm text-red-600 text-center">{error}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
+            disabled={isLoading}
+            className="w-full py-3 bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 transition-colors disabled:opacity-50"
           >
-            Enter
+            {isLoading ? "Signing in…" : "Enter"}
           </button>
         </form>
       </div>

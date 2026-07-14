@@ -55,6 +55,13 @@ export default function MobileNav() {
                 Home
               </Link>
               <Link
+                href="/calendar"
+                onClick={closeMenu}
+                className="px-4 py-3 text-brand-ink hover:bg-brand-mist/50 hover:text-brand-blue rounded-lg transition-colors font-medium"
+              >
+                Calendar
+              </Link>
+              <Link
                 href="/donate"
                 onClick={closeMenu}
                 className="px-4 py-3 text-brand-ink hover:bg-brand-mist/50 hover:text-brand-blue rounded-lg transition-colors font-medium"
