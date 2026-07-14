@@ -2,24 +2,26 @@ import { groq } from "next-sanity";
 
 
 export const announcementsQuery = `
-*[_type=="post" && (!defined(publishAt) || publishAt <= now()) 
+*[_type=="post" && (!defined(publishAt) || publishAt <= now())
   && (!defined(expiresAt) || expiresAt > now())]
 | order(pinned desc, publishAt desc, _createdAt desc) {
   _id,
   title,
   "slug": slug.current,
   "date": coalesce(publishAt, _createdAt),
-  "excerpt": coalesce(excerpt, pt::text(body)[0..180]),
+  "excerpt": coalesce(pt::text(body)[0..200], "No summary provided."),
   publishAt,
   category,
   audience,
   pinned,
   body,
+  defined(image) => {
     "image": {
-    "url": image.asset->url,
-    "w": image.asset->metadata.dimensions.width,
-    "h": image.asset->metadata.dimensions.height,
-    "alt": coalesce(image.alt, ^.title)
+      "url": image.asset->url,
+      "w": image.asset->metadata.dimensions.width,
+      "h": image.asset->metadata.dimensions.height,
+      "alt": coalesce(image.alt, ^.title)
+    }
   },
   attachments[]{
     _key,
@@ -41,11 +43,13 @@ export const announcementBySlugQuery = `
   audience,
   pinned,
   body,
+  defined(image) => {
     "image": {
-    "url": image.asset->url,
-    "w": image.asset->metadata.dimensions.width,
-    "h": image.asset->metadata.dimensions.height,
-    "alt": coalesce(image.alt, ^.title)
+      "url": image.asset->url,
+      "w": image.asset->metadata.dimensions.width,
+      "h": image.asset->metadata.dimensions.height,
+      "alt": coalesce(image.alt, ^.title)
+    }
   },
   attachments[]{
     _key,
