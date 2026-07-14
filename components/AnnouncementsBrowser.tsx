@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import AnnouncementCard from "@/components/AnnouncementCard";
 import Filters from "@/components/Filters";
 
-import { AnnouncementDTO, AnnouncementFilter } from "@/lib/types";
+import type { Announcement, AnnouncementDTO, AnnouncementFilter } from "@/lib/types";
+export type { Announcement, AnnouncementDTO, AnnouncementFilter };
 
 export default function AnnouncementsBrowser({ posts }: { posts: AnnouncementDTO[] }) {
   const [cat, setCat] = useState<AnnouncementFilter>("All");
