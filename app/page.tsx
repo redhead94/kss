@@ -2,7 +2,8 @@ import AnnouncementsBrowser, { AnnouncementDTO } from "@/components/Announcement
 import { sanity } from "@/lib/sanity.client"
 import { announcementsQuery } from "@/lib/queries"
 
-export const revalidate = 60
+// Temporarily disabled to stop Vercel from regenerating "ghost" old posts
+// export const revalidate = 60
 
 export default async function Home() {
   const posts = await sanity.fetch(announcementsQuery)
