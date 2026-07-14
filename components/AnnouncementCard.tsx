@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Badge, Card } from "./Ui";
 import PdfPill from "./PdfPill";
 
-import { Announcement } from "@/lib/types";
+import type { Announcement } from "@/lib/types";
 
 export default function AnnouncementCard({ a }: { a: Announcement }) {
   let d = "-";
