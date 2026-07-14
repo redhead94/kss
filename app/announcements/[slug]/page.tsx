@@ -5,7 +5,7 @@ import { PortableText } from "@portabletext/react";
 import PdfPill from "@/components/PdfPill";
 import type { Metadata } from "next";
 
-export const revalidate = 60;
+// export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await sanity.fetch(announcementBySlugQuery, { slug: params.slug });
