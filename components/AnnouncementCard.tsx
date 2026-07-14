@@ -1,8 +1,18 @@
+export type Attachment = { name: string; url: string; }
+export type Announcement = {
+  id: string;
+  title: string;
+  date: string;
+  category: "General" | "Youth" | "Women" | "Learning" | "Chesed";
+  excerpt: string;
+  image?: { url: string; w: number; h: number; alt?: string };
+  attachments?: Attachment[];
+  pinned?: boolean;
+}
+
 import Image from "next/image";
 import { Badge, Card } from "./Ui";
 import PdfPill from "./PdfPill";
-
-import type { Announcement } from "@/lib/types";
 
 export default function AnnouncementCard({ a }: { a: Announcement }) {
   let d = "-";
@@ -20,18 +30,17 @@ export default function AnnouncementCard({ a }: { a: Announcement }) {
           <div className="text-xs text-slate-500">{d}</div>
           <h3 className="mt-1 text-xl font-semibold text-slate-900">{a.title}</h3>
         </div>
-        {a.pinned ? <Badge className="bg-brand-100 text-brand-800"> <span aria-label="Pinned" title="Pinned">📌</span></Badge> : null}
+        {a.pinned && <Badge className="bg-brand-100 text-brand-800">📌</Badge>}
       </div>
 
-      {/* Image (optional) */}
       {a.image?.url && (
         <div className="mb-4 overflow-hidden rounded-lg border border-slate-200">
             <Image
               src={a.image.url}
               alt={a.image.alt || a.title}
               width={600}
-              height={600}  // 👈 choose a standard ratio (2:1 looks good)
-              className="object-contain w-full max-h-80" // 👈 15rem tall regardless of native size
+              height={600}
+              className="object-contain w-full max-h-80"
               sizes="(max-width: 768px) 100vw, 800px"
             />
           </div>

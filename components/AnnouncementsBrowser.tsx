@@ -4,8 +4,18 @@ import { useMemo, useState } from "react";
 import AnnouncementCard from "@/components/AnnouncementCard";
 import Filters from "@/components/Filters";
 
-import type { Announcement, AnnouncementDTO, AnnouncementFilter } from "@/lib/types";
-export type { Announcement, AnnouncementDTO, AnnouncementFilter };
+export interface AnnouncementDTO {
+  id: string;
+  title: string;
+  date: string;
+  category: "General" | "Youth" | "Women" | "Learning" | "Chesed";
+  excerpt?: string;
+  image?: { url: string; w: number; h: number; alt?: string };
+  attachments?: { name: string; url: string }[];
+  pinned?: boolean;
+}
+
+export type AnnouncementFilter = "All" | "Youth" | "Women" | "Learning" | "Chesed" | "General";
 
 export default function AnnouncementsBrowser({ posts }: { posts: AnnouncementDTO[] }) {
   const [cat, setCat] = useState<AnnouncementFilter>("All");
